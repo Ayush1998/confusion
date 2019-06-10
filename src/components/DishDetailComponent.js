@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Card,
   CardImg,
@@ -8,91 +8,61 @@ import {
   CardBody
 } from "reactstrap";
 
-class DishDetail extends Component {
-  constructor(props) {
-    super(props);
-  }
+function RenderDish({ dish }) {
+  if (dish != null)
+    return (
+      <div className="col-12 col-md-5 m-1">
+        <Card>
+          <CardImg top src={dish.image} alt={dish.name} />
+          <CardBody>
+            <CardTitle>{dish.name}</CardTitle>
+            <CardText>{dish.description}</CardText>
+          </CardBody>
+        </Card>
+      </div>
+    );
+  else return <div />;
+}
 
-  renderDish = dish => {
-    if (dish != null)
-      return (
-        <div className="col-12 col-md-5 m-1">
-          <Card>
-            <CardImg top src={dish.image} alt={dish.name} />
-            <CardBody>
-              <CardTitle>{dish.name}</CardTitle>
-              <CardText>{dish.description}</CardText>
-            </CardBody>
-          </Card>
+function RenderComments({ dishComments }) {
+  if (dishComments === "" || dishComments === null) {
+    return <div />;
+  } else {
+    return (
+      <div className="col-12 col-md-5 m-1">
+        <h4>Comments</h4>
+        <div>
+          {dishComments.map(comments => (
+            <div key={comments.id}>
+              <p>{comments.comment}</p>
+              <p>
+                -- {comments.author},{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit"
+                }).format(new Date(Date.parse(comments.date)))}
+              </p>
+            </div>
+          ))}
         </div>
-      );
-    else return <div />;
-  };
-
-  dateFormat = date => {
-    let newDate = "";
-    const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-
-    if (date !== null || date !== "") {
-      let year = date.getFullYear();
-      let month = date.getMonth();
-      month = months[month];
-      let currentDate = date.getDate();
-      if (currentDate < 10) {
-        currentDate = "0" + currentDate;
-      }
-      newDate = " " + month + " " + currentDate + ", " + year;
-      return newDate;
-    }
-  };
-
-  renderComments = dishComments => {
-    if (dishComments === "" || dishComments === null) {
-      return <div />;
-    } else {
-      return (
-        <div className="col-12 col-md-5 m-1">
-          <h4>Comments</h4>
-          <div>
-            {dishComments.map(comments => (
-              <div key={comments.id}>
-                <p>{comments.comment}</p>
-                <p>
-                  -- {comments.author},
-                  {this.dateFormat(new Date(comments.date))}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-  };
-
-  render() {
-    if (this.props.selectedDish != null) {
-      return (
-        <div className="row">
-          {this.renderDish(this.props.selectedDish)}
-
-          {this.renderComments(this.props.selectedDish.comments)}
-        </div>
-      );
-    } else return <div> </div>;
+      </div>
+    );
   }
 }
+
+const DishDetail = props => {
+  if (props.dish != null) {
+    return (
+      <div className="container">
+        <div className="row">
+          <RenderDish dish={props.dish} />
+
+          <RenderComments dishComments={props.dish.comments} />
+        </div>
+      </div>
+    );
+  } else return <div> </div>;
+};
 
 export default DishDetail;
