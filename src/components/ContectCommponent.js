@@ -162,7 +162,6 @@ class Contact extends Component {
           </div>
           <div className="col-12 col-md-9">
             <Form onSubmit={this.handleSubmit}>
-              . . .
               <FormGroup row>
                 <Label htmlFor="firstname" md={2}>
                   First Name
@@ -239,7 +238,7 @@ class Contact extends Component {
                   <FormFeedback>{errors.email}</FormFeedback>
                 </Col>
               </FormGroup>
-              . . .
+
               <FormGroup row>
                 <Col md={{ size: 6, offset: 2 }}>
                   <FormGroup check>
