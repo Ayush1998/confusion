@@ -23,7 +23,8 @@ class Header extends Component {
     super(props);
     this.state = {
       isNavOpen: false,
-      isModalOpen: false
+      isModalOpen: false,
+      showNav: false
     };
 
     this.toggleNav = this.toggleNav.bind(this);
@@ -57,17 +58,17 @@ class Header extends Component {
         <Navbar dark expand="md">
           <div className="container">
             <NavbarToggler onClick={this.toggleNav} />
-            <NavbarBrand className="mr-auto" href="/">
-              <img
-                src="assets/images/logo.png"
-                alt="restorent con fusion"
-                height="30"
-                width="41"
-              />
-            </NavbarBrand>
 
             <Collapse isOpen={this.state.isNavOpen} navbar>
               <Nav navbar>
+                <NavbarBrand className="mr-auto" href="/">
+                  <img
+                    src="assets/images/logo.png"
+                    alt="restorent con fusion"
+                    height="30"
+                    width="41"
+                  />
+                </NavbarBrand>
                 <NavItem>
                   <NavLink className="nav-link" to="/home">
                     <span className="fa fa-home fa-lg" />
