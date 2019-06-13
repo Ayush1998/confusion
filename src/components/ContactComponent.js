@@ -233,7 +233,7 @@ class Contact extends Component {
                     className="form-control"
                     name="contactType"
                   >
-                    <option>Tel.</option>
+                    <option active>Tel.</option>
                     <option>Email</option>
                   </Control.select>
                 </Col>
