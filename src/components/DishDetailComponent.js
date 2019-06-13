@@ -33,9 +33,13 @@ export class CommentForm extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current State is: " + JSON.stringify(values));
-    alert("Current State is: " + JSON.stringify(values));
     this.toggleModal();
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
+    );
   }
 
   render() {
@@ -128,16 +132,16 @@ function RenderDish({ dish }) {
   else return <div />;
 }
 
-function RenderComments({ dishComments }) {
+function RenderComments({ dishComments, addComment, dishId }) {
   if (dishComments === "" || dishComments === null) {
     return <div />;
   } else {
     return (
       <div className="col-12 col-md-5 m-1">
         <h4>Comments</h4>
-        <div>
+        <ul className="list-unstyled">
           {dishComments.map(comments => (
-            <div key={comments.id}>
+            <li key={comments.id}>
               <p>{comments.comment}</p>
               <p>
                 -- {comments.author},{" "}
@@ -147,10 +151,10 @@ function RenderComments({ dishComments }) {
                   day: "2-digit"
                 }).format(new Date(Date.parse(comments.date)))}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
-        <CommentForm />
+        </ul>
+        <CommentForm dishId={dishId} addComment={addComment} />
       </div>
     );
   }
@@ -178,7 +182,11 @@ const DishDetail = props => {
         <div className="row">
           <RenderDish dish={props.dish} />
 
-          <RenderComments dishComments={props.comments} />
+          <RenderComments
+            dishComments={props.comments}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+          />
         </div>
       </div>
     );
