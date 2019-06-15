@@ -10,7 +10,7 @@ import {
 } from "reactstrap";
 import { Button, Modal, ModalBody, ModalHeader, Label } from "reactstrap";
 import { Control, Errors, LocalForm } from "react-redux-form";
-
+import { Loading } from "./LoadingComponent";
 import { Link } from "react-router-dom";
 
 const required = val => val && val.length;
@@ -161,7 +161,23 @@ function RenderComments({ dishComments, addComment, dishId }) {
 }
 
 const DishDetail = props => {
-  if (props.dish != null) {
+  if (props.isLoading) {
+    return (
+      <div className="container">
+        <div className="row">
+          <Loading />
+        </div>
+      </div>
+    );
+  } else if (props.errMess) {
+    return (
+      <div className="container">
+        <div className="row">
+          <h4>{props.errMess}</h4>
+        </div>
+      </div>
+    );
+  } else if (props.dish != null) {
     return (
       <div className="container">
         <div className="row">
